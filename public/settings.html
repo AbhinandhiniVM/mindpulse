@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - MindPulse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f5f7fa;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 26px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-menu a, .nav-menu button {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-menu a:hover, .nav-menu button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-info {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .settings-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            border: none;
+            background: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-button:hover {
+            background: #e0e0e0;
+        }
+
+        .tab-button.active:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .settings-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .settings-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: #ccc;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #667eea;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 26px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #efe;
+            border-left: 4px solid #3c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #3c3;
+            display: none;
+        }
+
+        .danger-zone {
+            background: #fff5f5;
+            border: 2px solid #ff6b6b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .danger-zone h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .settings-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>🧠 MindPulse</h1>
+        <div class="nav-menu">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/analytics.html">Analytics</a>
+            <a href="/settings.html" class="active">Settings</a>
+            <div class="user-info">
+                👤 <span id="userName">User</span>
+            </div>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-title">
+            <h2>⚙️ Settings & Personal Data</h2>
+            <p>Manage your account, preferences, and health information</p>
+        </div>
+
+        <div class="settings-tabs">
+            <button class="tab-button active" onclick="switchTab('profile')">👤 Profile</button>
+            <button class="tab-button" onclick="switchTab('health')">❤️ Health Info</button>
+            <button class="tab-button" onclick="switchTab('privacy')">🔒 Privacy</button>
+            <button class="tab-button" onclick="switchTab('notifications')">🔔 Notifications</button>
+            <button class="tab-button" onclick="switchTab('data')">📊 Data</button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content active">
+            <div class="settings-section">
+                <h3>👤 Profile Information</h3>
+                
+                <div class="success-message" id="successMsg">✓ Profile updated successfully!</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" value="John" placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" value="Doe" placeholder="Enter last name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" value="" disabled placeholder="your@email.com">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" placeholder="+1 (555) 000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="text" id="dob" placeholder="MM/DD/YYYY">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" rows="4" placeholder="Tell us about yourself..."></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+                    <button class="btn btn-secondary" onclick="resetProfile()">Cancel</button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>🔐 Change Password</h3>
+
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <input type="password" id="currentPassword" placeholder="••••••••">
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="••••••••">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="••••••••">
+                </div>
+
+                <button class="btn btn-primary" onclick="changePassword()">Update Password</button>
+            </div>
+        </div>
+
+        <!-- Health Info Tab -->
+        <div id="health" class="tab-content">
+            <div class="settings-section">
+                <h3>❤️ Health Information</h3>
+
+                <div class="info-box">
+                    ℹ️ This information helps us provide personalized health insights and recommendations.
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" value="180" placeholder="170">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" value="75" placeholder="70">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bloodType">Blood Type</label>
+                        <select id="bloodType">
+                            <option>Select blood type</option>
+                            <option selected>O+</option>
+                            <option>O-</option>
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="activityLevel">Activity Level</label>
+                        <select id="activityLevel">
+                            <option>Sedentary</option>
+                            <option>Lightly Active</option>
+                            <option selected>Moderately Active</option>
+                            <option>Very Active</option>
+                            <option>Extremely Active</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Medical Conditions</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="hypertension">
+                        <label for="hypertension">Hypertension</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="diabetes">
+                        <label for="diabetes">Diabetes</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="asthma">
+                        <label for="asthma">Asthma</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="anxiety" checked>
+                        <label for="anxiety">Anxiety</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="medications">Current Medications</label>
+                    <textarea id="medications" rows="3" placeholder="List any medications you're taking..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" onclick="saveHealth()">Save Health Info</button>
+            </div>
+        </div>
+
+        <!-- Privacy Tab -->
+        <div id="privacy" class="tab-content">
+            <div class="settings-section">
+                <h3>🔒 Privacy Settings</h3>
+
+                <div class="toggle">
+                    <span>Make my profile public</span>
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Share data with health professionals</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Allow research participation</span>
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Enable two-factor authentication</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <label style="margin-bottom: 10px; display: block;">Who can see your health data?</label>
+                    <select>
+                        <option>Only you</option>
+                        <option selected>You and authorized doctors</option>
+                        <option>Friends and family</option>
+                        <option>Everyone</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" style="margin-top: 20px;">Save Privacy Settings</button>
+            </div>
+        </div>
+
+        <!-- Notifications Tab -->
+        <div id="notifications" class="tab-content">
+            <div class="settings-section">
+                <h3>🔔 Notification Preferences</h3>
+
+                <div class="toggle">
+                    <span>Email notifications</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Health alerts</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Daily summary</span>
+                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Weekly insights</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="toggle">
+                    <span>Medication reminders</span>
+                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="notificationTime">Preferred notification time</label>
+                    <input type="text" id="notificationTime" value="09:00 AM">
+                </div>
+
+                <button class="btn btn-primary">Save Notification Settings</button>
+            </div>
+        </div>
+
+        <!-- Data Tab -->
+        <div id="data" class="tab-content">
+            <div class="settings-section">
+                <h3>📊 Data Management</h3>
+
+                <div class="info-box">
+                    ℹ️ Download or delete your personal data
+                </div>
+
+                <div class="form-group">
+                    <label>Download Your Data</label>
+                    <p style="color: #666; margin-bottom: 10px; font-size: 14px;">Export all your health records, analytics, and personal information in CSV or JSON format.</p>
+                    <button class="btn btn-primary" onclick="downloadData('csv')">📥 Download as CSV</button>
+                    <button class="btn btn-primary" onclick="downloadData('json')">📥 Download as JSON</button>
+                </div>
+
+                <hr style="margin: 30px 0; border: none; border-top: 2px solid #f0f0f0;">
+
+                <div class="form-group">
+                    <label>Connected Devices</label>
+                    <p style="color: #666; margin-bottom: 10px; font-size: 14px;">Manage devices that have access to your account.</p>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>MacBook Pro</strong><br>
+                                <small style="color: #999;">Last active: 2 hours ago</small>
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 8px 15px;">Remove</button>
+                        </div>
+                    </div>
+                    <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong>iPhone 13</strong><br>
+                                <small style="color: #999;">Last active: Just now</small>
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 8px 15px;">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="danger-zone">
+                <h4>⚠️ Danger Zone</h4>
+                <p style="margin-bottom: 15px; color: #666;">Permanently delete your account and all associated data. This action cannot be undone.</p>
+                <button class="btn btn-danger" onclick="if(confirm('Are you sure? This cannot be undone!')) deleteAccount()">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3001';
+
+        function checkAuth() {
+            const user = localStorage.getItem('user');
+            if (!user) {
+                window.location.href = '/login.html';
+                return null;
+            }
+            return JSON.parse(user);
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active from buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Highlight button
+            event.target.classList.add('active');
+        }
+
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        function saveProfile() {
+            const successMsg = document.getElementById('successMsg');
+            successMsg.style.display = 'block';
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+        }
+
+        function resetProfile() {
+            window.location.reload();
+        }
+
+        function changePassword() {
+            alert('Password change feature coming soon!');
+        }
+
+        function saveHealth() {
+            alert('Health information saved!');
+        }
+
+        function downloadData(format) {
+            alert(`Downloading data as ${format.toUpperCase()}...`);
+        }
+
+        function deleteAccount() {
+            alert('Account deletion initiated. You will be logged out.');
+            logout();
+        }
+
+        window.addEventListener('load', () => {
+            const user = checkAuth();
+            if (user) {
+                document.getElementById('userName').textContent = user.email.split('@')[0];
+                document.getElementById('email').value = user.email;
+            }
+        });
+    </script>
+</body>
+</html>

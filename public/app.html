@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindPulse - Mental Health Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .welcome-section {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .welcome-section h2 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-section p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .demo-accounts {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-accounts h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .account-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .account-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cta-section {
+            text-align: center;
+        }
+
+        .cta-section .btn {
+            padding: 15px 40px;
+            font-size: 16px;
+            margin: 0 15px;
+            background: white;
+            color: #667eea;
+        }
+
+        .cta-section .btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .features {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .features h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-item {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-item strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .feature-item span {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-section h2 {
+                font-size: 32px;
+            }
+
+            .welcome-section p {
+                font-size: 16px;
+            }
+
+            .navbar h1 {
+                font-size: 20px;
+            }
+
+            .cards-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section .btn {
+                display: block;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>🧠 MindPulse</h1>
+        <div class="nav-buttons">
+            <button class="btn" onclick="redirectToLogin()">Login</button>
+            <button class="btn" onclick="redirectToSignup()">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h2>Welcome to MindPulse</h2>
+            <p>Your AI-Powered Mental Health Tracking System</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Analytics Dashboard</h3>
+                <p>Track your emotional patterns and mental health trends with advanced analytics</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h3>AI Emotion Detection</h3>
+                <p>Deep learning models analyze and detect your emotions accurately</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📱</div>
+                <h3>Sensor Integration</h3>
+                <p>Connect ESP32 sensors for real-time biometric monitoring</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔐</div>
+                <h3>Secure & Private</h3>
+                <p>Your health data is encrypted and protected with enterprise security</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="userCount">2</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="recordCount">Loading...</div>
+                <div class="stat-label">Health Records</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Monitoring Active</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>Key Features</h3>
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>Real-time Tracking</strong>
+                    <span>Monitor your health metrics in real-time</span>
+                </div>
+                <div class="feature-item">
+                    <strong>AI Analytics</strong>
+                    <span>Machine learning insights on your data</span>
+                </div>
+                <div class="feature-item">
+                    <strong>Historical Data</strong>
+                    <span>Track patterns over weeks and months</span>
+                </div>
+                <div class="feature-item">
+                    <strong>Mobile Ready</strong>
+                    <span>Works on all devices and screen sizes</span>
+                </div>
+                <div class="feature-item">
+                    <strong>Data Export</strong>
+                    <span>Download and share your health reports</span>
+                </div>
+                <div class="feature-item">
+                    <strong>Community</strong>
+                    <span>Connect with others on their health journey</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-accounts">
+            <h3>Demo Accounts (Try Now)</h3>
+            <div class="account-item">
+                <strong>👤 Demo User</strong>
+                Email: demo@example.com<br>
+                Password: demo123
+            </div>
+            <div class="account-item">
+                <strong>👤 ABHI Account</strong>
+                Email: abhinandhini45@gmail.com<br>
+                Password: ABHI
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h3 style="color: white; margin-bottom: 20px; font-size: 24px;">Get Started Today</h3>
+            <button class="btn" onclick="redirectToLogin()">Login to Dashboard</button>
+            <button class="btn" onclick="redirectToSignup()">Create New Account</button>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 MindPulse. All rights reserved. Your mental health matters.</p>
+        </div>
+    </div>
+
+    <script>
+        function redirectToLogin() {
+            window.location.href = '/login.html';
+        }
+
+        function redirectToSignup() {
+            window.location.href = '/signup.html';
+        }
+
+        // Fetch health records count
+        async function loadStats() {
+            try {
+                const response = await fetch('http://localhost:3001/api/health-records');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('recordCount').textContent = data.length || 0;
+                }
+            } catch (error) {
+                console.log('Backend API available at http://localhost:3001');
+                document.getElementById('recordCount').textContent = '0';
+            }
+        }
+
+        // Load stats on page load
+        loadStats();
+    </script>
+</body>
+</html>
